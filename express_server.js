@@ -87,3 +87,10 @@ app.get("/u/:id", (req, res) => {
     res.status(404).send("Short URL not found");
   }
 });
+
+app.post("/urls/:id", (req, res) => {
+  const shortURL = req.params.id;
+  const newLongURL = req.body.longURL;
+  urlDatabase[shortURL] = newLongURL;
+  res.redirect("/urls");
+});

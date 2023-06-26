@@ -64,9 +64,9 @@ app.post("/urls", (req, res) => {
 });
 
 // Function to generate a random alphanumeric string of given length
-const generateRandomString = (length) => {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const generateRandomString = (length = 6) => {
+  let result = "";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
 
   for (let i = 0; i < length; i++) {
@@ -76,3 +76,14 @@ const generateRandomString = (length) => {
 
   return result;
 };
+
+app.get("/u/:id", (req, res) => {
+  const shortURL = req.params.id;
+  const longURL = urlDatabase[shortURL];
+
+  if (longURL) {
+    res.redirect(longURL);
+  } else {
+    res.status(404).send("Short URL not found");
+  }
+});

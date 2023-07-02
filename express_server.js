@@ -94,3 +94,7 @@ app.post("/urls/:id", (req, res) => {
   urlDatabase[shortURL] = newLongURL;
   res.redirect("/urls");
 });
+
+app.get("/register", (req, res) => {
+  res.render("register");
+});

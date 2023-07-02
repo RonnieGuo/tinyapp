@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const PORT = 8080; // default port 8080
-
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
@@ -51,8 +52,9 @@ app.get("/set", (req, res) => {
   res.send(`a = ${a}`);
  });
 
- app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase };
+
+app.get("/urls", (req, res) => {
+  const templateVars = { urls: urlDatabase, user: req.cookies.user_id };
   res.render("urls_index", templateVars);
 });
 
@@ -111,8 +113,10 @@ app.post("/urls/:id", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.render("register");
+  const templateVars = { user: req.cookies.user_id };
+  res.render("register", templateVars);
 });
+
 
 app.post("/register", (req, res) => {
   const email = req.body.email;
@@ -141,6 +145,7 @@ app.post("/register", (req, res) => {
 
   users[userId] = newUser;
 
+  // Set user_id cookie after creating the newUser object
   res.cookie("user_id", userId);
   res.redirect("/urls");
 });
@@ -160,6 +165,10 @@ app.get("/example", (req, res) => {
   const userId = req.cookies.user_id;
   const user = users[userId];
   res.render("example", { user: user });
+});
+
+app.get("/login", (req, res) => {
+  res.render("login"); // Render your login view/template
 });
 
 app.post("/login", (req, res) => {

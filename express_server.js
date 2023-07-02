@@ -98,3 +98,69 @@ app.post("/urls/:id", (req, res) => {
 app.get("/register", (req, res) => {
   res.render("register");
 });
+
+// create an object to store users
+const users = {
+  user1: {
+    id: "user1",
+    email: "user1@google.com",
+    password: "user1",
+  },
+  user2: {
+    id: "user2",
+    email: "user2@google.com",
+    password: "user2",
+  }
+};
+
+app.post("/register", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  // Check if email or password are empty strings
+  if (!email || !password) {
+    res.status(400).send("Email or password cannot be empty");
+    return;
+  }
+
+  // Check if email already exists in the users object
+  const user = getUserByEmail(email);
+  if (user) {
+    res.status(400).send("Email already exists");
+    return;
+  }
+
+  const userId = generateRandomString();
+
+  const newUser = {
+    id: userId,
+    email: email,
+    password: password
+  };
+
+  users[userId] = newUser;
+
+  res.cookie("user_id", userId);
+  res.redirect("/urls");
+});
+
+// Helper function to find a user by email
+const getUserByEmail = (email) => {
+  for (const userId in users) {
+    const user = users[userId];
+    if (user.email === email) {
+      return user;
+    }
+  }
+  return null;
+};
+
+app.get("/example", (req, res) => {
+  const userId = req.cookies.user_id;
+  const user = users[userId];
+  res.render("example", { user: user });
+});
+
+app.get("/login", (req, res) => {
+  res.render("login");
+});

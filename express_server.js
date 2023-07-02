@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const PORT = 8080; // default port 8080
 
+const { getUserByEmail } = require('./helpers');
+
 app.set("view engine", "ejs");
 
 const cookieSession = require('cookie-session');
@@ -49,16 +51,6 @@ const generateRandomString = (length = 6) => {
   }
 
   return result;
-};
-
-const getUserByEmail = (email) => {
-  for (const userId in users) {
-    const user = users[userId];
-    if (user.email === email) {
-      return user;
-    }
-  }
-  return null;
 };
 
 const urlsForUser = (id) => {
@@ -165,7 +157,7 @@ app.post("/register", (req, res) => {
     return;
   }
 
-  const existingUser = getUserByEmail(email);
+  const existingUser = getUserByEmail(email, users);
 
   if (existingUser) {
     res.status(400).send("Email already registered");
@@ -193,7 +185,7 @@ app.post("/login", (req, res) => {
     return;
   }
 
-  const user = getUserByEmail(email);
+  const user = getUserByEmail(email, users);
 
   if (!user || !bcrypt.compareSync(password, user.password)) {
     res.status(401).send('Invalid email or password');

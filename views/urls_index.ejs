@@ -21,6 +21,7 @@
     <%- include('partials/_header') %>
     <main style="margin: 1em;">
       <h3>My URLs</h3>
+      
       <table class="table">
         <thead>
           <tr>
@@ -31,8 +32,8 @@
           </tr>
         </thead>
         <tbody>
-          <% for (const shortURL in urls) { %>
-            <% const longURL = urls[shortURL]; %>
+          <% for (const shortURL in urlDatabase) { %>
+            <% const longURL = urlDatabase[shortURL].longURL; %>
             <tr>
               <td><%= shortURL %></td>
               <td><%= longURL %></td>

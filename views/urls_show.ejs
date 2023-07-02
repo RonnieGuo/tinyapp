@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 
 
-<form method="POST" action="/urls/<%= id %>">
-  <input type="text" name="longURL" value="<%= longURL %>">
-  <button type="submit">Update</button>
-</form>
-
 <html lang="en">
   <head>
     <!-- Bootstrap CSS -->
@@ -28,7 +23,13 @@
           Short URL ID: <a href="/u/<%= id %>"><%= id %></a>
         </p>
       </div>
-      <div class="card-footer text-muted"></div>
+      <div class="card-footer text-muted">
+        <h4 class="card-title"> Edit</h4>
+        <form method="POST" action="/urls/<%= id %>">
+         New URL:  <input type="text" name="newLongURL" placeholder="Enter new long URL" required>
+          <button type="submit">Update</button>
+        </form>
+      </div>
     </div>
     <!-- Bootstrap JS -->
     <script
@@ -46,5 +47,7 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+
+
   </body>
 </html>

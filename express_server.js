@@ -109,12 +109,15 @@ app.get("/u/:id", (req, res) => {
   }
 });
 
+
+
 app.post("/urls/:id", (req, res) => {
-  const shortURL = req.params.id;
-  const newLongURL = req.body.longURL;
-  urlDatabase[shortURL] = newLongURL;
+  const id = req.params.id;
+  const newLongURL = req.body.newLongURL;
+  urlDatabase[id] = newLongURL;
   res.redirect("/urls");
 });
+
 
 app.post("/urls/:id/delete", (req, res) => {
   const shortURL = req.params.id;

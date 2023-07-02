@@ -11,6 +11,21 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+// create an object to store users
+const users = {
+  user1: {
+    id: "user1",
+    email: "user1@gmail.com",
+    password: "user1",
+  },
+  user2: {
+    id: "user2",
+    email: "user2@gmail.com",
+    password: "user2",
+  }
+};
+
+
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
@@ -99,20 +114,6 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 
-// create an object to store users
-const users = {
-  user1: {
-    id: "user1",
-    email: "user1@google.com",
-    password: "user1",
-  },
-  user2: {
-    id: "user2",
-    email: "user2@google.com",
-    password: "user2",
-  }
-};
-
 app.post("/register", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -161,6 +162,21 @@ app.get("/example", (req, res) => {
   res.render("example", { user: user });
 });
 
-app.get("/login", (req, res) => {
-  res.render("login");
+app.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const user = getUserByEmail(email); // Implement getUserByEmail helper function
+
+  if (!user || user.password !== password) {
+    res.status(403).send("Invalid email or password"); // Return 403 status code on failure
+  } else {
+    res.cookie("user_id", user.id); // Set user_id cookie on successful login
+    res.redirect("/urls");
+  }
+});
+
+app.post("/logout", (req, res) => {
+  res.clearCookie("user_id"); // Clear the user_id cookie
+  res.redirect("/login"); // Redirect to /login page after logout
 });

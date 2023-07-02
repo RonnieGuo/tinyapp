@@ -12,19 +12,21 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+  
+      <a class="nav-link" href="/urls/new">New URL</a>
+ 
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ml-auto text-right">
-        <% if (!user || !user.id) { %>
+        <% if (user && user.id) { %>
          
-        <p class="navbar-text">
-          Logged in as: <strong><%= user.email %></strong>
-          <form action="/logout" method="POST" class="d-inline">
-          <button class="btn btn-link nav-link" type="submit">Logout</button>
-          </form>
-        </p>
+          <p class="navbar-text">
+            Sign in as: <strong><%= user.id %></strong>
+            <form action="/logout" method="POST" class="d-inline">
+              <button class="btn btn-link nav-link" type="submit">Logout</button>
+            </form>
+          </p>
         <% } else { %>
-         <a class="nav-item nav-link" href="/register">Register</a>
+          <a class="nav-item nav-link" href="/register">Register</a>
           <a class="nav-item nav-link" href="/login">Login</a>
           <form action="/logout" method="POST" class="d-inline">
             <button class="btn btn-link nav-link" type="submit">Logout</button>
@@ -34,6 +36,10 @@
     </div>
   </nav>
 </header>
+
+
+
+
 
 
 

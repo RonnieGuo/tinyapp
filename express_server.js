@@ -79,10 +79,11 @@ app.get("/urls", (req, res) => {
   const userId = req.session.user_id;
   const user = users[userId];
 
-  if (!user) {
-    res.status(401).send("Please login or register first.");
-    return;
-  }
+  // if (!user) {
+    
+  //   res.status(401).send("Please login or register first.");
+  //   return;
+  // }
 
   const userUrls = urlsForUser(userId);
   const templateVars = { urls: userUrls, user: user };

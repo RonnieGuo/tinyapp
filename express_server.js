@@ -64,7 +64,14 @@ const urlsForUser = (id) => {
 };
 
 app.get("/", (req, res) => {
-  res.send("Hello!");
+  const userId = req.session.user_id;
+  const user = users[userId];
+
+  if (!user) {
+    res.redirect("/login");
+  } else {
+    res.render("urls", { user: user });
+  }
 });
 
 app.listen(PORT, () => {
@@ -78,12 +85,6 @@ app.get("/urls.json", (req, res) => {
 app.get("/urls", (req, res) => {
   const userId = req.session.user_id;
   const user = users[userId];
-
-  // if (!user) {
-    
-  //   res.status(401).send("Please login or register first.");
-  //   return;
-  // }
 
   const userUrls = urlsForUser(userId);
   const templateVars = { urls: userUrls, user: user };

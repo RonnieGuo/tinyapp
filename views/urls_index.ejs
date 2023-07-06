@@ -35,9 +35,9 @@
           <% for (const shortURL in urlDatabase) { %>
             <% const longURL = urlDatabase[shortURL].longURL; %>
             <tr>
-              <td><a href="<%= longURL %>"><%= shortURL %></a></td>
+              <td><%= shortURL %></td>
               <td><%= longURL %></td>
-              <td><a href="/urls/<%= shortURL %>">Edit</a></td>
+              <td><a href="/urls/<%= shortURL %>" >Edit</a></td>
               <td>
                 <form method="POST" action="/urls/<%= shortURL %>/delete">
                   <button type="submit">Delete</button>
